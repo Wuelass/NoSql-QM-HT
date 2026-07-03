@@ -1,0 +1,116 @@
+:root {
+  --bg: #f6f2ec;
+  --card: #fffaf2;
+  --text: #202020;
+  --muted: #6b6257;
+  --accent: #627e63;
+  --accent-dark: #405c41;
+  --line: #ded5c8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  background: linear-gradient(135deg, #fffaf2, #e8f0e2);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.06);
+}
+
+h1 { margin: 8px 0; font-size: clamp(40px, 7vw, 76px); letter-spacing: -0.06em; }
+h2 { margin: 0 0 14px; font-size: 20px; }
+p { color: var(--muted); line-height: 1.6; max-width: 760px; }
+
+.badge {
+  display: inline-block;
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: #ddebd8;
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 22px 0;
+}
+
+article, .search-box, .result {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 20px;
+}
+
+button {
+  border: 0;
+  border-radius: 14px;
+  background: var(--accent);
+  color: white;
+  padding: 11px 14px;
+  cursor: pointer;
+  font-weight: 700;
+  margin: 5px 4px 5px 0;
+}
+
+button:hover { background: var(--accent-dark); }
+
+.row { display: flex; gap: 10px; }
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: white;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+#endpointLabel { color: var(--muted); font-size: 14px; }
+pre {
+  min-height: 300px;
+  overflow: auto;
+  background: #171a17;
+  color: #e9f3e7;
+  border-radius: 18px;
+  padding: 18px;
+  line-height: 1.5;
+}
+
+@media (max-width: 950px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 620px) {
+  .grid { grid-template-columns: 1fr; }
+  .row { flex-direction: column; }
+}

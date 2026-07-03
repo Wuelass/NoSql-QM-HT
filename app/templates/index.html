@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FinanceTrack NoSQL</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="badge">Projet MongoDB / NoSQL</p>
+        <h1>FinanceTrack</h1>
+        <p>Application de suivi de portefeuilles d'investissement : positions, transactions, valorisation, allocation, alertes de prix et profils de risque.</p>
+      </div>
+      <button id="seedBtn">Remplir la base</button>
+    </section>
+
+    <section class="grid cards">
+      <article>
+        <h2>Portefeuilles</h2>
+        <button onclick="loadEndpoint('/api/portfolios/value')">Valeur totale</button>
+        <button onclick="loadEndpoint('/api/portfolio/p001/summary')">Résumé p001</button>
+        <button onclick="loadEndpoint('/api/portfolio/p001/allocation/type')">Allocation type p001</button>
+        <button onclick="loadEndpoint('/api/portfolio/p001/allocation/sector')">Allocation secteur p001</button>
+      </article>
+
+      <article>
+        <h2>Transactions</h2>
+        <button onclick="loadEndpoint('/api/portfolio/p001/transactions')">Transactions p001</button>
+        <button onclick="loadEndpoint('/api/portfolio/p001/average-buy-price')">Prix moyen p001</button>
+        <button onclick="loadEndpoint('/api/investments/monthly')">Investissements mensuels</button>
+      </article>
+
+      <article>
+        <h2>Actifs et alertes</h2>
+        <button onclick="loadEndpoint('/api/assets')">Liste des actifs</button>
+        <button onclick="loadEndpoint('/api/assets/top')">Top actifs</button>
+        <button onclick="loadEndpoint('/api/asset/btc/prices')">Historique BTC</button>
+        <button onclick="loadEndpoint('/api/alerts/triggered')">Alertes déclenchées</button>
+      </article>
+
+      <article>
+        <h2>Analyse utilisateurs</h2>
+        <button onclick="loadEndpoint('/api/users')">Utilisateurs</button>
+        <button onclick="loadEndpoint('/api/users/risk-profiles')">Profils de risque</button>
+        <button onclick="loadEndpoint('/api/portfolio/p001/diversification')">Diversification p001</button>
+        <button onclick="loadEndpoint('/api/portfolios/above/8000')">Portefeuilles > 8000</button>
+      </article>
+    </section>
+
+    <section class="search-box">
+      <h2>Recherche d'actifs</h2>
+      <div class="row">
+        <input id="searchInput" placeholder="Ex : btc, tech, etf...">
+        <button onclick="searchAsset()">Rechercher</button>
+      </div>
+    </section>
+
+    <section class="result">
+      <div class="result-header">
+        <h2>Résultat API</h2>
+        <span id="endpointLabel">Aucune requête lancée</span>
+      </div>
+      <pre id="output">Clique sur “Remplir la base”, puis teste une requête.</pre>
+    </section>
+  </main>
+
+  <script>
+    const output = document.getElementById('output');
+    const endpointLabel = document.getElementById('endpointLabel');
+
+    async function loadEndpoint(url, options = {}) {
+      endpointLabel.textContent = url;
+      output.textContent = 'Chargement...';
+      const response = await fetch(url, options);
+      const data = await response.json();
+      output.textContent = JSON.stringify(data, null, 2);
+    }
+
+    document.getElementById('seedBtn').addEventListener('click', () => {
+      loadEndpoint('/api/seed', { method: 'POST' });
+    });
+
+    function searchAsset() {
+      const q = document.getElementById('searchInput').value || '';
+      loadEndpoint('/api/assets/search?q=' + encodeURIComponent(q));
+    }
+  </script>
+</body>
+</html>
